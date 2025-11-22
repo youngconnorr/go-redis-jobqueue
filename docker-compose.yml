@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  redis:
+    image: redis:latest
+    container_name: taskqueue-redis
+    networks:
+      - taskqueue-network
+    
+  go-app:
+    build: .
+    container_name: taskqueue-go
+    depends_on: 
+      - redis
+    networks:
+      - taskqueue-network
+
+networks:
+  taskqueue-network:
+    driver: bridge
